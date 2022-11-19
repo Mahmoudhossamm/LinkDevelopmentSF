@@ -6,7 +6,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TableComponent } from './table/table.component';
 import { MaterialModule } from '../material/material.module';
 import { DataPropertyGetterPipe } from '../pipes/data-property-getter.pipe';
-
+import { ToastrModule } from 'ngx-toastr';
 
 
 @NgModule({
@@ -21,7 +21,10 @@ import { DataPropertyGetterPipe } from '../pipes/data-property-getter.pipe';
     FormsModule,
     MaterialModule,
     ReactiveFormsModule,
-    
+    ToastrModule.forRoot({
+      positionClass: 'toast-bottom-right',
+      preventDuplicates: true,
+    }),
   ],
   exports:[
     FormsModule,

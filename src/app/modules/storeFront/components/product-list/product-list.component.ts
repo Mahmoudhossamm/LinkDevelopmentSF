@@ -13,7 +13,7 @@ import { TableColumn } from 'src/app/core/shared/table/table-column';
 export class ProductListComponent implements OnInit {
   productsDto: PaginationResponseOfProductDto | any;
   productColumns!: TableColumn[];
-  filterCriteria: SearchProductsRequest = {keyword:'', pageSize: 10 ,orderBy:['CategoryId']};
+  filterCriteria: SearchProductsRequest = {pageSize: 5};
   constructor(
     public productService: ProductsService,
   ) { }

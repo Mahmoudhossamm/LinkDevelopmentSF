@@ -11,12 +11,13 @@ import { ProductListComponent } from './storeFront/components/product-list/produ
 import { HeaderComponent } from './storeFront/components/header/header.component';
 import { StoreFrontComponent } from './storeFront/store-front.component';
 import { ProductsService } from './storeFront/services/products.service';
-
+import { OrdersComponent } from './storeFront/components/orders/orders.component';
+import { OrdersService } from './storeFront/services/orders.service';
 @NgModule({
   declarations: [
-    HeaderComponent,
     ProductListComponent,
     StoreFrontComponent,
+    OrdersComponent,
 
   ],
   imports: [
@@ -31,7 +32,7 @@ import { ProductsService } from './storeFront/services/products.service';
 
   ],
   providers: [
-    DecimalPipe,ProductsService
+    DecimalPipe,ProductsService,OrdersService
   ],
 })
 export class MainModule { }
