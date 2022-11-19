@@ -2,24 +2,22 @@ import { NgModule } from '@angular/core';
 import { CommonModule, DecimalPipe } from '@angular/common';
 
 import { MainRoutingModule } from './main-routing.module';
-import { HeaderComponent } from './currency-exchanger/components/header/header.component';
-import { PanalComponent } from './currency-exchanger/components/panal/panal.component';
-import { DetailsComponent } from './currency-exchanger/components/details/details.component';
-import { GridComponent } from './currency-exchanger/components/grid/grid.component';
+
 import { MaterialModule } from '../core/material/material.module';
 import { SharedModule } from '../core/shared/shared.module';
 import { NgxEchartsModule } from 'ngx-echarts';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { CustomInterceptor } from '../core/interceptors/custom.Interceptor';
-import { CurrencyService } from './currency-exchanger/services/currency.service';
-import { CurrencyApiService } from '../core/api/currency-exchanger/currency-api.service';
+import { ProductListComponent } from './storeFront/components/product-list/product-list.component';
+import { HeaderComponent } from './storeFront/components/header/header.component';
+import { StoreFrontComponent } from './storeFront/store-front.component';
+import { ProductsService } from './storeFront/services/products.service';
 
 @NgModule({
   declarations: [
     HeaderComponent,
-    PanalComponent,
-    DetailsComponent,
-    GridComponent
+    ProductListComponent,
+    StoreFrontComponent,
+
   ],
   imports: [
     CommonModule,
@@ -33,10 +31,7 @@ import { CurrencyApiService } from '../core/api/currency-exchanger/currency-api.
 
   ],
   providers: [
-    DecimalPipe,
-    CurrencyApiService,   
-    CurrencyService,
-   {provide: HTTP_INTERCEPTORS, useClass: CustomInterceptor, multi: true},
+    DecimalPipe,ProductsService
   ],
 })
 export class MainModule { }

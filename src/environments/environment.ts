@@ -4,8 +4,7 @@
 
 export const environment = {
   production: false,
-  apiUrl: 'https://api.apilayer.com/fixer/',
-  apiKey: 'qGKF2ZSVEQ9zWLjUOUnRmPATqj4rJ4Lw'
+  apiUrl: "https://localhost:5001/api/"
 };
 
 /*
