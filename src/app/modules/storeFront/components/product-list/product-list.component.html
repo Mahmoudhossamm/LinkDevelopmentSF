@@ -1,9 +1,10 @@
 <app-header></app-header>
 
 <div [hidden]="!productsDto">
-    <div class="row" *ngFor="let product of productsDto?.data; let i = index">
-        {{product.name}}
-        </div>
-</div>
-
+    <app-table [title]="'Products'" [subtitle]="'Manage, Register, Update or Remove Products here.'"
+      [data]="productsDto && productsDto.data" [columns]="productColumns" (onFilter)="filter($event)"
+      (onReload)="reload()" [totalCount]="productsDto && productsDto.totalCount"
+      [pageSize]="productsDto && productsDto.pageSize" (onPageChanged)="pageChanged($event)">
+    </app-table>
+  </div>
 

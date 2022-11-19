@@ -217,6 +217,7 @@ export class ProductsService {
         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         if (httpHeaderAcceptSelected != undefined) {
             headers = headers.set('Accept', httpHeaderAcceptSelected);
+            headers = headers.set('tenant', 'root');
         }
 
         // to determine the Content-Type header
