@@ -8,6 +8,7 @@ import { CreateOrdersRequest } from '../../models/createOrdersRequest';
 import { PaginationResponseOfDiscountRulesDto } from '../../models/paginationResponseOfDiscountRulesDto';
 import { PaginationResponseOfOrdersDto } from '../../models/paginationResponseOfOrdersDto';
 import { PaginationResponseOfProductDto } from '../../models/paginationResponseOfProductDto';
+import { ProductDetailsDto } from '../../models/productDetailsDto';
 import { SearchDiscountRulesRequest } from '../../models/searchDiscountRulesRequest';
 import { SearchOrdersRequest } from '../../models/searchOrdersRequest';
 import { SearchProductsRequest } from '../../models/searchProductsRequest';
@@ -24,6 +25,7 @@ export class OrdersComponent implements OnInit {
 
   filterCriteria: SearchProductsRequest = {pageSize: 5};
   productsDto: PaginationResponseOfProductDto | any;
+  productDetailsDto : ProductDetailsDto | any;
   orderForm!: FormGroup;
 
   orderFilterCriteria: SearchOrdersRequest = {pageSize: 5};
@@ -31,8 +33,10 @@ export class OrdersComponent implements OnInit {
   ordersColumns!: TableColumn[];
   orderQuantity:number = 0;
 
+  productName:string = "";
+
   virtualOrder : Array<CreateOrdersRequest> = [];
-  
+  ordersVirtualColumns!: TableColumn[];
   filterCritieriaDiscount : SearchDiscountRulesRequest = {}; 
   discountRulesDto : PaginationResponseOfDiscountRulesDto = {data:[]} ;
   constructor(
@@ -46,21 +50,23 @@ export class OrdersComponent implements OnInit {
 
   ngOnInit(): void {
 
-
     this.intializeForm();
     this.getProducts();
 
     
     this.initColumns();
     this.getOrders();
+
+    this.initVirtualColumns();
   }
 
   intializeForm(){
     this.orderForm = this.fb.group({
       id: [],
+      productName: [],
       name: ['', Validators.required],
       productId:  ['', Validators.required],
-      price:  ['', Validators.required],
+      price: [{value: '', disabled: true}, Validators.required],
       quantity:  ['', Validators.required],
     
     });
@@ -79,22 +85,33 @@ export class OrdersComponent implements OnInit {
     })
   }
 
+  ddlChange($event : any){
 
+    this.productService.productsGet($event).subscribe((res)=>{
+      this.productDetailsDto = res;
+      console.log("ProductPrice",this.productDetailsDto.price );
+      this.orderForm.patchValue({
+        price: this.productDetailsDto.price,
+        productName : this.productDetailsDto.name
+      });
+     
+    })
+    console.log("event", this.orderForm.value);
+    
+  }
 
+  //#region Orders
   initColumns(): void {
     this.ordersColumns = [
      // { name: 'Id', dataKey: 'id', isSortable: true, isShowable: true },
       { name: 'name', dataKey: 'name', isSortable: true, isShowable: true },
-      { name: 'description', dataKey: 'description', isSortable: true, isShowable: true },
       { name: 'Product Name', dataKey: 'productName', isSortable: true, isShowable: true },
-      { name: 'Discount', dataKey: 'discountPercentage', isSortable: true, isShowable: true },
       { name: 'price', dataKey: 'price', isSortable: true, isShowable: true },
       { name: 'quantity', dataKey: 'quantity', isSortable: true, isShowable: true },
       
     ];
   }
 
-  
   pageChanged(event: PaginatedFilter): void {
     this.orderFilterCriteria.pageNumber = event.pageNumber;
     this.orderFilterCriteria.pageSize = event.pageSize;
@@ -116,6 +133,30 @@ export class OrdersComponent implements OnInit {
     this.getOrders();
   }
 
+  //#endregion
+
+  //#region Virtual Orders
+  initVirtualColumns(): void {
+    this.ordersVirtualColumns = [
+     // { name: 'Id', dataKey: 'id', isSortable: true, isShowable: true },
+      { name: 'name', dataKey: 'name', isSortable: true, isShowable: true },
+      { name: 'Product Name', dataKey: 'productName', isSortable: true, isShowable: true },
+      { name: 'Discount', dataKey: 'discountPercentage', isSortable: true, isShowable: true },
+      { name: 'price', dataKey: 'price', isSortable: true, isShowable: true },
+      { name: 'quantity', dataKey: 'quantity', isSortable: true, isShowable: true },
+      
+    ];
+  }
+
+  pageChangedVirtual(event: PaginatedFilter): void {
+    
+   
+  }
+
+ 
+
+
+  //#endregion
 
 
   saveOrders(){
@@ -133,11 +174,9 @@ export class OrdersComponent implements OnInit {
 
     // Get Current ProductId
     let productId : string = this.orderForm.get('productId')?.value;
-    console.log("product",productId);
-
+   
     this.filterCritieriaDiscount.productId = productId;
     this.discountRule.discountRulesSearch(this.filterCritieriaDiscount).subscribe((res)=>{
-      console.log("Discount",res)
       this.discountRulesDto = res;
 
 
@@ -148,7 +187,7 @@ export class OrdersComponent implements OnInit {
     let orderIndex = this.virtualOrder.findIndex(obj => obj.name == this.orderForm.get('name')?.value)
     let orderDB = this.orders.data.findIndex((obj: { name: string; }) => obj.name == this.orderForm.get('name')?.value)
     if (orderIndex > -1 || orderDB > -1) {
-      this.toastr.warning("Name already exist");
+      this.toastr.warning("Order Name already exist");
       return;
     }
 
@@ -160,7 +199,7 @@ export class OrdersComponent implements OnInit {
       this.virtualOrder[index].quantity +=  this.orderForm.get('quantity')?.value;
     }
     else{
-      this.virtualOrder.push(this.orderForm.value);
+      this.virtualOrder.push(this.orderForm.getRawValue());
       index = this.virtualOrder.findIndex( obj => obj.productId == productId);
     }
 
@@ -179,8 +218,8 @@ export class OrdersComponent implements OnInit {
       
       if (this.virtualOrder[index].discountPercentage == undefined) {
         let priceAfterDiscount = ((this.virtualOrder[index].price * percentage) / 100) 
-        this.virtualOrder[index].price = priceAfterDiscount;
-        this.virtualOrder[index].discountPercentage = percentage;
+        this.virtualOrder[index].price =  this.virtualOrder[index].price - priceAfterDiscount;
+        this.virtualOrder[index].discountPercentage = priceAfterDiscount;
       }
 
     }
@@ -189,15 +228,6 @@ export class OrdersComponent implements OnInit {
 
     })
 
-
-   
-   
-
-    // this.virtualOrder.push(this.orderForm.value);
-
-
-    // console.log("virtualOrder",this.virtualOrder);
-   // this.toastr.success("product Created");
 
   }
 

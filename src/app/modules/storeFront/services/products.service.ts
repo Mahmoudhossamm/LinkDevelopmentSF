@@ -176,13 +176,14 @@ export class ProductsService {
         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         if (httpHeaderAcceptSelected != undefined) {
             headers = headers.set('Accept', httpHeaderAcceptSelected);
+            headers = headers.set('tenant', 'root');
         }
 
         // to determine the Content-Type header
         const consumes: string[] = [
         ];
 
-        return this.httpClient.request<ProductDetailsDto>('get',`${this.basePath}/api/v1/products/${encodeURIComponent(String(id))}`,
+        return this.httpClient.request<ProductDetailsDto>('get',`${this.basePath}v1/products/${encodeURIComponent(String(id))}`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,

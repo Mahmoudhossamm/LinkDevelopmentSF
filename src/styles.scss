@@ -1,4 +1,5 @@
 @use '@angular/material' as mat;
+@import '~ngx-toastr/toastr';
 @import 'bootstrap/scss/bootstrap';
 @import '_theme.scss';
 $material-design-icons-font-directory-path: '~material-design-icons-iconfont/dist/fonts/';
