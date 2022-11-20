@@ -9,13 +9,14 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
+import { DiscountRulesDto } from './discountRulesDto';
 
-export interface CreateOrdersRequest { 
-    name: string;
-    description?: string;
-    price: number;
-    quantity: number;
-    discountPercentage?: number;
-    productId?: string;
-    productName?: string;
+export interface PaginationResponseOfDiscountRulesDto { 
+    data: Array<DiscountRulesDto>;
+    currentPage?: number;
+    totalPages?: number;
+    totalCount?: number;
+    pageSize?: number;
+    hasPreviousPage?: boolean;
+    hasNextPage?: boolean;
 }

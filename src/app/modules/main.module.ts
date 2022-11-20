@@ -13,6 +13,8 @@ import { StoreFrontComponent } from './storeFront/store-front.component';
 import { ProductsService } from './storeFront/services/products.service';
 import { OrdersComponent } from './storeFront/components/orders/orders.component';
 import { OrdersService } from './storeFront/services/orders.service';
+import { ToastrModule } from 'ngx-toastr';
+import { DiscountRulesService } from './storeFront/services/discountRules.service';
 @NgModule({
   declarations: [
     ProductListComponent,
@@ -29,10 +31,13 @@ import { OrdersService } from './storeFront/services/orders.service';
       echarts: () => import('echarts')
     }),
     HttpClientModule,
-
+    ToastrModule.forRoot({
+      positionClass: 'toast-bottom-right',
+      preventDuplicates: true,
+    }),
   ],
   providers: [
-    DecimalPipe,ProductsService,OrdersService
+    DecimalPipe,ProductsService,OrdersService,DiscountRulesService
   ],
 })
 export class MainModule { }

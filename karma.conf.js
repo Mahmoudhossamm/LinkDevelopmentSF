@@ -25,7 +25,7 @@ module.exports = function (config) {
       suppressAll: true // removes the duplicated traces
     },
     coverageReporter: {
-      dir: require('path').join(__dirname, './coverage/currencyt-exchanger'),
+      dir: require('path').join(__dirname, './coverage/link-development'),
       subdir: '.',
       reporters: [
         { type: 'html' },

@@ -10,12 +10,12 @@
  * Do not edit the class manually.
  */
 
-export interface CreateOrdersRequest { 
-    name: string;
+export interface DiscountRulesDto { 
+    id?: string;
+    name?: string;
     description?: string;
-    price: number;
     quantity: number;
-    discountPercentage?: number;
+    percentage: number;
     productId?: string;
     productName?: string;
 }

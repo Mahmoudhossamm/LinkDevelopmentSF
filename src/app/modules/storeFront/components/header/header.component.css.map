@@ -1,9 +1,1 @@
-{
-    "version": 3,
-    "mappings": "AAAA,AAAA,OAAO,CAAC;EACJ,IAAI,EAAE,QAAQ;CACf;;AAED,AACE,eADa,CACb,GAAG,CAAA;EACC,MAAM,EAAE,IAAI;CACf",
-    "sources": [
-        "header.component.scss"
-    ],
-    "names": [],
-    "file": "header.component.css"
-}
+{"version":3,"sources":["header.component.scss","header.component.css"],"names":[],"mappings":"AAAA;EACI,cAAA;ACCJ;;ADGI;EACI,YAAA;ACAR","file":"header.component.css"}

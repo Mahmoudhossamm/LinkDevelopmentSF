@@ -56,15 +56,27 @@
 </div>
 
 
+
+
 <div class="container-fluid mt-4">
-    <div [hidden]="!orders">
-        <app-table [title]="'orders'" [subtitle]="'Manage, Register, Update or Remove orders here.'"
-            [data]="orders && orders.data" [columns]="ordersColumns" (onFilter)="filter($event)"
-            (onReload)="reload()" 
-            [totalCount]="orders && orders.totalCount" [pageSize]="orders && orders.pageSize"
-            (onPageChanged)="pageChanged($event)">
-        </app-table>
-    </div>
+  <div [hidden]="!virtualOrder">
+      <app-table [title]="'orders'" [subtitle]="'Manage, Register, Update or Remove orders here.'"
+          [data]="virtualOrder" [columns]="ordersColumns" (onFilter)="filter($event)"
+          (onReload)="reload()" (onCreateForm)="saveOrders()"
+          [totalCount]="virtualOrder.length" 
+          (onPageChanged)="pageChanged($event)">
+      </app-table>
+  </div>
 </div>
 
 
+<div class="container-fluid mt-4">
+  <div [hidden]="!orders">
+      <app-table [title]="'orders'" [subtitle]="'Manage, Register, Update or Remove orders here.'"
+          [data]="orders && orders.data" [columns]="ordersColumns" (onFilter)="filter($event)"
+          (onReload)="reload()" 
+          [totalCount]="orders && orders.totalCount" [pageSize]="orders && orders.pageSize"
+          (onPageChanged)="pageChanged($event)">
+      </app-table>
+  </div>
+</div>

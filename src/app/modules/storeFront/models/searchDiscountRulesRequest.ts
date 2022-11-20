@@ -9,13 +9,8 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
+import { PaginationFilter } from './paginationFilter';
 
-export interface CreateOrdersRequest { 
-    name: string;
-    description?: string;
-    price: number;
-    quantity: number;
-    discountPercentage?: number;
+export interface SearchDiscountRulesRequest extends PaginationFilter { 
     productId?: string;
-    productName?: string;
 }
